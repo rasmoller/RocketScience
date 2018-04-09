@@ -1,11 +1,13 @@
 class rocket{
- PVector pos, vel, acc;
- int RWidth, RHeight, rotation, engineH, fuelH, headH;
+ private PVector pos, vel, acc, grav;
+ int RWidth, RHeight, rotation, engineH, fuelH, headH, weight;
  PShape engine, fuel, head;
  
  
 
-rocket(int Width, int Height, color eC, color fC, color hC){
+rocket(int Width, int Height, color eC, color fC, color hC, float Grav){
+  vel = new PVector(0,0);
+  acc = new PVector(0,0);
   RWidth = Width;
   engineH = int(Height*0.2);
   fuelH = Height;
@@ -13,6 +15,9 @@ rocket(int Width, int Height, color eC, color fC, color hC){
   engine = drawEngine(eC);
   fuel = drawFuel(fC);
   head = drawHead(hC);
+  weight = Height*Width*5;
+  //this.grav.y = -Grav;
+  //this.grav.x = 0;
 }
 
   void display(){
@@ -27,6 +32,11 @@ rocket(int Width, int Height, color eC, color fC, color hC){
     }
     */
     
+  }
+  
+  void calcmov(){
+  //acc.add(grav*weight);
+  pos.add(acc);
   }
   
   private PShape drawEngine(color c){
@@ -65,4 +75,6 @@ rocket(int Width, int Height, color eC, color fC, color hC){
   e.endShape(CLOSE);
   return e;
   }
+  int getHeight(){return engineH+fuelH+headH;}
+  int getWidth(){return RWidth;}
 }
