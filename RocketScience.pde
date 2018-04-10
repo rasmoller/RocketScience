@@ -20,6 +20,9 @@ void keyPressed(){
       controls[i] = true;
     }
   }
+  if(key == ' '){
+  r1.resetPos();
+  }
 
 }
 void keyReleased(){

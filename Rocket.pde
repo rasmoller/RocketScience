@@ -34,10 +34,16 @@ class rocket {
      */
   }
 
-  void move() {
+  private void move() {
     acc.add(grav.mult(weight));
     vel.add(acc);
     pos.add(vel);
+  }
+  
+  void resetPos(){
+    acc = new PVector(0,0);
+    vel = new PVector(0,0);
+    pos = new PVector(width/2, height);
   }
 
   private PShape drawEngine(color c) {
