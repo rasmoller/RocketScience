@@ -1,31 +1,39 @@
-class rocket {
+class rocket { //<>//
   //variables
-  private PVector pos, vel, acc, grav;
-  int RWidth, RHeight, rotation, engineH, fuelH, headH, weight;
-  PShape engine, fuel, head;
+  private PVector pos, vel, acc, grav, eAcc;
+  private int RWidth, RHeight, rotation, engineH, fuelH, headH, weight;
+  private float ePower;
+  private PShape engine, fuel, head;
 
   //constructor
   rocket(int Width, int Height, color eC, color fC, color hC, float grav, int weight) {
     this.pos = new PVector(width/2, height);
     this.vel = new PVector(0, 0);
     this.acc = new PVector(0, 0);
+    this.eAcc = new PVector(0, 0);
     RWidth = Width;
+    rotation = 0;
     engineH = int(Height*0.2);
     fuelH = Height;
     headH = int(Height*0.2);
     engine = drawEngine(eC);
     fuel = drawFuel(fC);
     head = drawHead(hC);
+    ePower = 1;
     this.grav = new PVector(0, grav);
     this.weight = weight;
   }
 
   void display() {
     shapeMode(CORNER);
-    shape(engine, pos.x-(RWidth/2), pos.y);
-    shape(fuel, pos.x-(RWidth/2), pos.y - engineH);
-    shape(head, pos.x-(RWidth/2), pos.y - (fuelH + headH));
-    move();
+    shape(engine, pos.x, pos.y);
+    shape(fuel,   pos.x, pos.y - engineH);
+    shape(head,   pos.x, pos.y - (fuelH + headH));
+    fill(255,0,0);
+    ellipse(pos.x, pos.y, 30, 30);
+    if (!pause) {
+      move();
+    }
     /* 
      if i implement a store system or something like it
      if(boosterBought==true){
@@ -35,14 +43,25 @@ class rocket {
   }
 
   private void move() {
+    println(grav.mult(weight));
     acc.add(grav.mult(weight));
+    if (controls[1] == true) {
+      acc.add(sin(rotation)*ePower, -cos(rotation)*ePower);
+    }
+    
+    if (pos.add(vel).y > height) {
+      pos.y = height;
+      acc.set(0, 0);
+      acc.sub(vel.mult(0.1));
+      vel.set(0, 0);
+      
+    }
     vel.add(acc);
-    pos.add(vel);
   }
-  
-  void resetPos(){
-    acc = new PVector(0,0);
-    vel = new PVector(0,0);
+
+  void resetPos() {
+    acc = new PVector(0, 0);
+    vel = new PVector(0, 0);
     pos = new PVector(width/2, height);
   }
 
@@ -88,5 +107,8 @@ class rocket {
   }
   int getWidth() {
     return RWidth;
+  }
+  int getAltitude() {
+    return height-int(pos.y);
   }
 }
