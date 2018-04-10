@@ -1,6 +1,6 @@
 class rocket { //<>//
   //variables
-  private PVector pos, vel, acc, grav, eAcc;
+  private PVector pos, vel, acc, grav;
   private int RWidth, RHeight, rotation, engineH, fuelH, headH, weight;
   private float ePower;
   private PShape engine, fuel, head;
@@ -10,7 +10,6 @@ class rocket { //<>//
     this.pos = new PVector(width/2, height);
     this.vel = new PVector(0, 0);
     this.acc = new PVector(0, 0);
-    this.eAcc = new PVector(0, 0);
     RWidth = Width;
     rotation = 0;
     engineH = int(Height*0.2);
@@ -46,7 +45,7 @@ class rocket { //<>//
     println(grav.mult(weight));
     acc.add(grav.mult(weight));
     if (controls[1] == true) {
-      acc.add(sin(rotation)*ePower, -cos(rotation)*ePower);
+      applyForce(new PVector(sin(rotation)*ePower, -cos(rotation)*ePower));
     }
     
     if (pos.add(vel).y > height) {
@@ -63,6 +62,10 @@ class rocket { //<>//
     acc = new PVector(0, 0);
     vel = new PVector(0, 0);
     pos = new PVector(width/2, height);
+  }
+  
+  void applyForce(PVector p){
+  acc.add(p);
   }
 
   private PShape drawEngine(color c) {
