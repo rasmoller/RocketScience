@@ -15,6 +15,7 @@ class rocket { //<>//
     engineH = int(Height*0.2);
     fuelH = Height;
     headH = int(Height*0.2);
+    RHeight = engineH + fuelH + headH;
     engine = drawEngine(eC);
     fuel = drawFuel(fC);
     head = drawHead(hC);
